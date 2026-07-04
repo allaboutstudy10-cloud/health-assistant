@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Health Assistant — Monitor your health, every day</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand"><span class="pulse-dot"></span> Health Assistant</a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#how-it-works">How it works</a>
+        <a href="login.html">Login</a>
+      </nav>
+
+      <div class="nav-cta">
+        <button class="icon-btn" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+        <a href="register.html" class="btn btn-primary btn-sm">Get started</a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Personal health monitoring</span>
+        <h1>Know your numbers. <span>Care for yourself</span> with confidence.</h1>
+        <p class="lead">
+          Health Assistant helps you record BMI, temperature, blood pressure and
+          medical history in one place — and turns it into simple, friendly guidance
+          you can act on every day.
+        </p>
+        <div class="hero-actions">
+          <a href="register.html" class="btn btn-primary">Create your free account</a>
+          <a href="login.html" class="btn btn-outline">I already have an account</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>3</strong><span>vitals tracked</span></div>
+          <div><strong>100%</strong><span>private to you</span></div>
+          <div><strong>24/7</strong><span>access to your history</span></div>
+        </div>
+      </div>
+
+      <!-- Signature visual: a live "monitor" card with an animated heartbeat line -->
+      <div class="ecg-card">
+        <div class="ecg-header">
+          <span class="label">Live readout</span>
+          <span class="value">72 bpm</span>
+        </div>
+        <svg class="ecg-line" viewBox="0 0 400 90" preserveAspectRatio="none">
+          <path d="M0,45 L40,45 L55,20 L70,70 L85,10 L100,45 L140,45 L155,30 L170,60 L185,45 L400,45" />
+        </svg>
+        <div class="vitals-mini">
+          <div class="mini-stat"><div class="num">22.4</div><div class="cap">BMI</div></div>
+          <div class="mini-stat"><div class="num">36.6°</div><div class="cap">Temp</div></div>
+          <div class="mini-stat"><div class="num">118/76</div><div class="cap">BP</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <h2>Everything you need to stay on top of your health</h2>
+        <p>Simple tools, clear numbers, and guidance you can actually understand.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="icon">📊</div>
+          <h3>BMI tracking</h3>
+          <p>Log your weight and height to instantly see your BMI value and category over time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🌡️</div>
+          <h3>Temperature log</h3>
+          <p>Record your body temperature and get a quick read on whether it's normal or a possible fever.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">❤️</div>
+          <h3>Blood pressure</h3>
+          <p>Track systolic and diastolic readings and know where you stand: normal, elevated, or high.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🗂️</div>
+          <h3>Medical history</h3>
+          <p>Keep a permanent, searchable timeline of past conditions, medicines, allergies and notes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">💡</div>
+          <h3>Friendly guidance</h3>
+          <p>Get plain-language suggestions based on your latest readings — never a replacement for a doctor.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📱</div>
+          <h3>Anywhere, anytime</h3>
+          <p>A clean, responsive dashboard that works just as well on your phone as on your laptop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="section" id="how-it-works" style="background:var(--surface)">
+    <div class="container">
+      <div class="section-head">
+        <h2>How Health Assistant works</h2>
+        <p>Four simple steps to start understanding your health better.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h4>Create an account</h4>
+          <p>Tell us a bit about yourself: age, gender, height and weight.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h4>Log your vitals</h4>
+          <p>Record BMI, temperature and blood pressure whenever you check them.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h4>Track your history</h4>
+          <p>Add past conditions and medicines so everything lives in one timeline.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <h4>Get simple guidance</h4>
+          <p>See friendly, easy-to-follow suggestions based on your latest numbers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Start monitoring your health today</h2>
+        <p>It only takes a minute to create your account.</p>
+        <a href="register.html" class="btn btn-primary">Get started — it's free</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Health Assistant — a personal health monitoring project.</p>
+      <p style="margin-top:6px;">This system provides general health guidance and does not replace professional medical advice.</p>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById("hamburgerBtn").addEventListener("click", () => {
+      document.getElementById("navLinks").classList.toggle("open");
+    });
+    const themeBtn = document.getElementById("themeToggle");
+    themeBtn.textContent = document.documentElement.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
+    themeBtn.addEventListener("click", () => {
+      toggleTheme();
+      themeBtn.textContent = document.documentElement.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
+    });
+  </script>
+</body>
+</html>

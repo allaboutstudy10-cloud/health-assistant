@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Symptom Checker — Health Assistant</title>
+<link rel="stylesheet" href="css/style.css" />
+<style>
+  /* ── Symptom Checker page-specific styles ── */
+
+  .symptom-category {
+    margin-bottom: 22px;
+  }
+  .symptom-category h4 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .symptom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 8px;
+  }
+  .symptom-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 0.87rem;
+    font-family: var(--font-body);
+    color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+    text-align: left;
+  }
+  .symptom-chip input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .symptom-chip:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+  .symptom-chip.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+
+  /* Results panel */
+  .results-panel {
+    display: none;
+  }
+  .results-panel.visible {
+    display: block;
+  }
+
+  .match-card {
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    background: var(--surface);
+  }
+  .match-card.urgency-high  { border-left-color: var(--danger); }
+  .match-card.urgency-medium { border-left-color: var(--warning); }
+  .match-card.urgency-low   { border-left-color: var(--success); }
+
+  .match-card .match-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .match-card .match-head h4 {
+    font-size: 1rem;
+  }
+  .urgency-tag {
+    font-size: 0.73rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .urgency-tag.high   { background: var(--danger-bg);  color: var(--danger); }
+  .urgency-tag.medium { background: var(--warning-bg); color: var(--warning); }
+  .urgency-tag.low    { background: var(--success-bg); color: var(--success); }
+
+  .match-card .advice-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 4px;
+  }
+  .match-card .advice-list li {
+    font-size: 0.88rem;
+    color: var(--text);
+    display: flex;
+    gap: 8px;
+  }
+  .match-card .advice-list li::before {
+    content: "→";
+    color: var(--primary);
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  .emergency-banner {
+    background: var(--danger-bg);
+    border: 2px solid var(--danger);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .emergency-banner .icon { font-size: 1.5rem; flex-shrink: 0; }
+  .emergency-banner h4 { color: var(--danger); margin-bottom: 4px; font-size: 0.98rem; }
+  .emergency-banner p  { color: var(--danger); font-size: 0.87rem; }
+
+  .selected-count {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .no-match-box {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--muted);
+  }
+  .no-match-box .icon { font-size: 2rem; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+  <div class="mobile-topbar">
+    <button class="hamburger" id="openSidebar" aria-label="Open menu">☰</button>
+    <a href="dashboard.html" class="brand"><span class="pulse-dot"></span> Health Assistant</a>
+    <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+  </div>
+
+  <div class="app-shell">
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar" id="sidebar">
+      <a href="dashboard.html" class="brand"><span class="pulse-dot"></span> Health Assistant</a>
+      <nav>
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="records.html">🩺 Health Records</a>
+        <a href="records.html#history">🗂️ Medical History</a>
+        <a href="symptom-checker.html" class="active">🔍 Symptom Checker</a>
+        <a href="profile.html">👤 Profile</a>
+      </nav>
+      <button class="logout-btn" id="logoutBtn">↪ Log out</button>
+    </aside>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="main-content">
+      <div class="topbar">
+        <div>
+          <h1>🔍 Symptom Checker</h1>
+          <p class="sub">Select every symptom you are experiencing, then press Analyse.</p>
+        </div>
+        <button class="icon-btn" id="themeToggleDesktop" aria-label="Toggle dark mode">🌙</button>
+      </div>
+
+      <div class="grid-2" style="align-items:flex-start; gap:22px;">
+
+        <!-- ── LEFT: SYMPTOM CHECKLIST ── -->
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+              <h3>Select your symptoms</h3>
+              <span class="selected-count" id="selectedCount">0 selected</span>
+            </div>
+            <!-- Symptom chips are injected here by JS -->
+            <div id="symptomChecklist"></div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="analyseBtn" disabled>Analyse symptoms</button>
+            <button class="btn btn-outline" id="clearBtn">Clear all</button>
+          </div>
+        </div>
+
+        <!-- ── RIGHT: RESULTS PANEL ── -->
+        <div>
+          <!-- Empty state shown before first analysis -->
+          <div class="card" id="emptyResults">
+            <div class="no-match-box">
+              <div class="icon">🩺</div>
+              <p>Your results will appear here after you select<br>symptoms and press <strong>Analyse</strong>.</p>
+            </div>
+          </div>
+
+          <!-- Results panel — hidden until analysis runs -->
+          <div class="results-panel" id="resultsPanel">
+
+            <!-- Emergency banner (shown only if any high-urgency match) -->
+            <div class="emergency-banner" id="emergencyBanner" style="display:none;">
+              <div class="icon">🚨</div>
+              <div>
+                <h4>Seek immediate medical attention</h4>
+                <p>One or more of your symptoms may indicate a serious or emergency condition. Please call emergency services or go to an emergency room now. Do not rely on this tool in an emergency.</p>
+              </div>
+            </div>
+
+            <!-- Matched conditions list -->
+            <div id="matchList"></div>
+
+            <!-- No-match notice -->
+            <div class="card" id="noMatchCard" style="display:none;">
+              <div class="no-match-box">
+                <div class="icon">✅</div>
+                <p>No specific conditions matched your selected symptoms.<br>
+                If you feel unwell, consider consulting a healthcare professional.</p>
+              </div>
+            </div>
+
+            <!-- Save to history section -->
+            <div class="card" style="margin-top:14px;" id="saveSection">
+              <h3 style="margin-bottom:8px;">Save this check</h3>
+              <p style="color:var(--muted); font-size:0.87rem; margin-bottom:14px;">
+                Add this symptom check to your Medical History timeline so you can review it later.
+              </p>
+              <button class="btn btn-primary btn-sm" id="saveBtn">Save to Medical History</button>
+              <span id="savedConfirm" style="display:none; color:var(--success); font-size:0.87rem; font-weight:600; margin-left:12px;">✔ Saved to history</span>
+            </div>
+
+            <!-- Disclaimer -->
+            <p class="disclaimer-box" id="disclaimerResult" style="margin-top:10px;"></p>
+          </div>
+        </div>
+
+      </div><!-- /grid-2 -->
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/symptom-checker.js"></script>
+</body>
+</html>

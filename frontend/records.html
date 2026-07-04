@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Health Records — Health Assistant</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="mobile-topbar">
+    <button class="hamburger" id="openSidebar" aria-label="Open menu">☰</button>
+    <a href="dashboard.html" class="brand"><span class="pulse-dot"></span> Health Assistant</a>
+    <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+  </div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a href="dashboard.html" class="brand"><span class="pulse-dot"></span> Health Assistant</a>
+      <nav>
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="records.html" class="active">🩺 Health Records</a>
+        <a href="records.html#history" class="active">🗂️ Medical History</a>
+        <a href="symptom-checker.html">🔍 Symptom Checker</a>
+        <a href="profile.html">👤 Profile</a>
+      </nav>
+      <button class="logout-btn" id="logoutBtn">↪ Log out</button>
+    </aside>
+
+    <main class="main-content">
+      <div class="topbar">
+        <div>
+          <h1>Health Records</h1>
+          <p class="sub">Log new readings and review your history.</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="search-bar">
+            <span>🔎</span>
+            <input type="text" id="searchInput" placeholder="Search records..." />
+          </div>
+          <button class="icon-btn" id="themeToggleDesktop" aria-label="Toggle dark mode">🌙</button>
+        </div>
+      </div>
+
+      <!-- ===================== TABS ===================== -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="bmi">BMI</button>
+        <button class="tab-btn" data-tab="temperature">Temperature</button>
+        <button class="tab-btn" data-tab="bp">Blood Pressure</button>
+        <button class="tab-btn" data-tab="history">Medical History</button>
+      </div>
+
+      <!-- ===================== BMI TAB ===================== -->
+      <section class="tab-panel active" id="panel-bmi">
+        <div class="grid-2" style="align-items:flex-start;">
+          <div class="card">
+            <h3 style="margin-bottom:14px;">Add a BMI reading</h3>
+            <form id="bmiForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="bmiWeight">Weight (kg)</label>
+                  <input type="number" id="bmiWeight" step="0.1" min="2" max="400" required />
+                </div>
+                <div class="form-group">
+                  <label for="bmiHeight">Height (cm)</label>
+                  <input type="number" id="bmiHeight" step="0.1" min="50" max="250" required />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Calculate &amp; save</button>
+            </form>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:14px;">BMI trend</h3>
+            <canvas id="bmiChart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3 style="margin-bottom:14px;">BMI history</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>BMI</th><th>Category</th><th>Date</th><th>Action</th></tr></thead>
+              <tbody id="bmiTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== TEMPERATURE TAB ===================== -->
+      <section class="tab-panel" id="panel-temperature">
+        <div class="grid-2" style="align-items:flex-start;">
+          <div class="card">
+            <h3 style="margin-bottom:14px;">Add a temperature reading</h3>
+            <form id="tempForm">
+              <div class="form-group">
+                <label for="tempValue">Body temperature (°C)</label>
+                <input type="number" id="tempValue" step="0.1" min="30" max="44" required />
+                <p class="form-hint">Normal range is roughly 36.1°C – 37.5°C.</p>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Save reading</button>
+            </form>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:14px;">Temperature trend</h3>
+            <canvas id="tempChart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3 style="margin-bottom:14px;">Temperature history</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Temperature</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+              <tbody id="tempTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== BP TAB ===================== -->
+      <section class="tab-panel" id="panel-bp">
+        <div class="grid-2" style="align-items:flex-start;">
+          <div class="card">
+            <h3 style="margin-bottom:14px;">Add a blood pressure reading</h3>
+            <form id="bpForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="bpSys">Systolic (mmHg)</label>
+                  <input type="number" id="bpSys" min="50" max="260" required />
+                </div>
+                <div class="form-group">
+                  <label for="bpDia">Diastolic (mmHg)</label>
+                  <input type="number" id="bpDia" min="30" max="160" required />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Save reading</button>
+            </form>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:14px;">Blood pressure trend</h3>
+            <canvas id="bpChart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3 style="margin-bottom:14px;">Blood pressure history</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Reading</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+              <tbody id="bpTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== MEDICAL HISTORY TAB ===================== -->
+      <section class="tab-panel" id="panel-history">
+        <div class="card" style="margin-bottom:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h3>Medical history timeline</h3>
+            <button class="btn btn-primary btn-sm" id="addHistoryBtn">+ Add entry</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="timeline" id="historyTimeline"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===================== MEDICAL HISTORY MODAL ===================== -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="historyModalTitle">Add medical history entry</h3>
+        <button class="modal-close" id="closeHistoryModal">&times;</button>
+      </div>
+      <form id="historyForm">
+        <input type="hidden" id="historyId" />
+        <div class="form-group">
+          <label for="diseaseName">Disease / condition name</label>
+          <input type="text" id="diseaseName" placeholder="e.g. Seasonal flu" />
+        </div>
+        <div class="form-group">
+          <label for="problems">Previous problems</label>
+          <textarea id="problems" rows="2" placeholder="Describe any past health problems"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="medicines">Medicines</label>
+          <textarea id="medicines" rows="2" placeholder="e.g. Paracetamol 500mg"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="allergies">Allergies</label>
+          <input type="text" id="allergies" placeholder="e.g. Penicillin" />
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <textarea id="notes" rows="2" placeholder="Anything else worth remembering"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Save entry</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/records.js"></script>
+</body>
+</html>
